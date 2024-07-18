@@ -1,5 +1,4 @@
 from package.maths.terms import Point
-
 def workspace():
     cord_x = int(input(f'digite um número inteiro para coordenada x do ponto '))
     cord_y = int(input(f'digite um número inteiro para coordenada y do ponto '))

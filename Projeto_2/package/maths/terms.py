@@ -1,16 +1,3 @@
-import math
-class Point():
-    def __init__(self,x,y):
-        self.x = x 
-        self.y = y
-
-    def coordenadas(self):
-        print(f'As coordenadas são x = {self.x} e y = {self.y}')
-
-    def distancia_origem(self):
-        dist = math.sqrt((self.x - 0)**2 + (self.y - 0)**2)
-        return dist
- 
 class Reta():
 
 
@@ -32,22 +19,22 @@ class Reta():
 
 
 class circle():
-    def __init__(self, raio, x, y):
-        self.raio = raio
+    def __init__(self, r, x, y):
+        self.r = r
         self.x = x
         self.y = y
 
 
     def circulo(self):
-        circulo = 2 * 3.14 * self.raio
+        circulo = 2 * 3.14 * self.r
         return circulo
     
     def area(self):
-        area = 3.14 * pow(self.raio, 2)
+        area = 3.14 * pow(self.r, 2)
         return area
     
     def model(self):
-        print(f'Os parâmetros dessa circunferência são: raio ={self.raio}, x={self.x}, y={self.y}.')
+        print(f'Os parâmetros dessa circunferência são: r={self.r}, x={self.x}, y={self.y}.')
 
 class Triangulo():
     def __init__(self,base,altura):
