@@ -34,7 +34,10 @@ class circle():
         return area
     
     def model(self):
-        print(f'Os parâmetros dessa circunferência são: r={self.r}, x={self.x}, y={self.y}.')
+        print(f'Os parâmetros dessa circunferência são: raio={self.r}, x={self.x}, y={self.y}.')
+
+    def identif(self):
+        return 'Círculo'
 
 class Triangulo():
     def __init__(self,base,altura):
@@ -47,6 +50,13 @@ class Triangulo():
     
     def model(self):
         print(f'Os parâmetros desse triângulo são: base={self._base}, altura={self._altura}')
+
+    def identif(self):
+        return 'Triângulo'
+
+class Point():
+    pass
+
 
 
 
@@ -66,6 +76,9 @@ class Retangulo():
     
     def model(self):
         print(f'Os parâmetros desse retangulo são: lado={self.__lado}, base={self.__base}')
+
+    def identif(self):
+        return 'Retângulo'
 
 class Quadrado(Retangulo):
     def __init__(self,lado,base):
@@ -123,6 +136,36 @@ class Poligonos:
 class Lados:
     def __init__(self,arestas):
         self.arestas = arestas
+
+
+class Listar_formas:
+    def __init__(self):
+        self.formas = {}
+        self.count = 0
+
+    def add_forma(self, new_form):
+        self.count += 1
+        self.formas[self.count] = new_form
+
+    def remove_formas(self,key):
+        if key in self.formas:
+            del self.formas[key]
+            return True
+        else:
+            return False
+
+    def listar_formas(self):
+        if not self.formas:
+            print('Não existe nenhuma forma geométrica criada')
+        else:
+            for chave, formas in self.formas.items():
+                print(f"{chave}: {formas.identif()}")
+
+
+    
+
+
+    
 
 
 
