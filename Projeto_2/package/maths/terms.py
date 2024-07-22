@@ -1,3 +1,49 @@
+import math
+
+
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distancia_para_origem(self):
+        #Calcula a distância do ponto para a origem (0, 0).
+        return math.sqrt(self.x**2 + self.y**2)
+
+    def distancia_para_ponto(self, outro_ponto):
+        #Calcula a distância entre este ponto e outro ponto.
+        return math.sqrt((self.x - outro_ponto.x)**2 + (self.y - outro_ponto.y)**2)
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+
+def capturar_pontos():
+    
+    pontos = []
+    while True:
+        try:
+            x = float(input("Digite a coordenada x do ponto (ou 'fim' para encerrar): "))
+            y = float(input("Digite a coordenada y do ponto: "))
+            pontos.append(Point(x, y))
+        except ValueError:
+            break
+    return pontos   
+
+def verificar_distancias(pontos):
+    
+    
+    for ponto in pontos:
+        print(f"Distância do ponto {ponto} para a origem: {ponto.distancia_para_origem():.2f}")
+
+    
+    for i in range(len(pontos)):
+        for j in range(i + 1, len(pontos)):
+            distancia = pontos[i].distancia_para_ponto(pontos[j])
+            print(f"Distância entre o ponto {pontos[i]} e o ponto {pontos[j]}: {distancia:.2f}")           
+
+
+
 class Reta():
 
 
@@ -19,10 +65,10 @@ class Reta():
 
 
 class circle():
-    def __init__(self, r, x, y):
+    def __init__(self, r ):
         self.r = r
-        self.x = x
-        self.y = y
+        
+        
 
 
     def circulo(self):
@@ -34,10 +80,14 @@ class circle():
         return area
     
     def model(self):
-        print(f'Os parâmetros dessa circunferência são: raio={self.r}, x={self.x}, y={self.y}.')
+        print(f'Os parâmetros dessa circunferência são: raio={self.r}.')
 
     def identif(self):
         return 'Círculo'
+    
+    #def contem_ponto(self, ponto):
+     #   distancia = math.sqrt((ponto.x - self.centro.x) ** 2 + (ponto.y - self.centro.y) ** 2)
+      #  return distancia <= self.raio
 
 class Triangulo():
     def __init__(self,base,altura):
@@ -53,13 +103,6 @@ class Triangulo():
 
     def identif(self):
         return 'Triângulo'
-
-class Point():
-    pass
-
-
-
-
 
 class Retangulo():
     def __init__(self , lado, base):
@@ -162,31 +205,14 @@ class Listar_formas:
                 print(f"{chave}: {formas.identif()}")
 
 
+
+class Contem_formas:
+
+    def circulo(coordx_p, coordy_p, coordx_c, coordy_c, raio):
+        contem = math.sqrt((coordx_p - coordx_c)**2 + (coordy_p - coordy_c)**2)
+        return contem <= raio
     
-
-
-    
-
-
-
-    
-    
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        
+    def retangulo(inferior_esq_x, inferior_esq_y, largura,altura,pontox,pontoy):
+        dentro_x = (inferior_esq_x <= pontox <= inferior_esq_x + largura)
+        dentro_y = (inferior_esq_y <= pontoy <= inferior_esq_y + altura)
+        return dentro_x and dentro_y
