@@ -46,7 +46,7 @@ def main():
 
         elif resposta == 3:
             raio = int(input('Digite o raio desse círculo: '))
-            circulo = circle(raio, None)
+            circulo = circle(raio)
             circulo.model
             print(f'\nA área desse círculo é: {circulo.area()}')
             print('\n[Círculo criado com sucesso!!]\n')
@@ -99,18 +99,21 @@ def main():
                 else:
                     print('O ponto não está dentro da circunferência')
 
-           
+            
+            if form_select == 4:
+                verificar_ponto_na_reta()
 
 
         #REMOVE FORMAS
         elif resposta == 5:
             formas.listar_formas()
-            key = int(input('Selecione o número da forma geométrica que deseja deletar'))
+            key = int(input('Selecione o número da forma geométrica que deseja deletar: '))
             if formas.remove_formas(key):
                 print(f'\nForma {key} foi deletada')
 
             else:
-                print('\n Não foi possível encontrar a forma geométrica {key}')
+                print('\n Não foi possivel encontrar a forma geométrica {key}')
+            
 
 
         #LISTAR AS FORMAS
