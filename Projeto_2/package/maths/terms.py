@@ -1,28 +1,125 @@
+import math
+
+
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distancia_para_origem(self):
+        return math.sqrt(self.x**2 + self.y**2)
+
+    def distancia_para_ponto(self, outro_ponto):
+        return math.sqrt((self.x - outro_ponto.x)**2 + (self.y - outro_ponto.y)**2)
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+
+def capturar_pontos():
+    
+    pontos = []
+    while True:
+        try:
+            x = float(input("Digite a coordenada x do ponto (ou 'fim' para encerrar): "))
+            y = float(input("Digite a coordenada y do ponto: "))
+            pontos.append(Point(x, y))
+        except ValueError:
+            break
+    return pontos   
+
+def verificar_distancias(pontos):
+    
+    
+    for ponto in pontos:
+        print(f"Distância do ponto {ponto} para a origem: {ponto.distancia_para_origem():.2f}")
+
+    
+    for i in range(len(pontos)):
+        for j in range(i + 1, len(pontos)):
+            distancia = pontos[i].distancia_para_ponto(pontos[j])
+            print(f"Distância entre o ponto {pontos[i]} e o ponto {pontos[j]}: {distancia:.2f}")           
+
+
+
 class Reta():
 
 
-    def __init__(self,a,b):  #construtor 
+    #def __init__(self,a,b):  #construtor 
+     #   self.a = a
+      #  self.b = b
 
-        self.a = a
-        self.b = b
+
+    #def interpolar(self,x):
+      #  y = self.a * x + self.b
+       # return y
+
+    
+    #def model(self):
+        #print(f'Os parâmertros do meu modelo de reta são: a={self.a}, b={self.b}')
+
+ 
+
+    def __init__(self, ponto1, ponto2):
+        self.ponto1 = ponto1
+        self.ponto2 = ponto2
+
+    def model(self):
+        print(f'Os parâmertros do meu modelo de reta são: a={self.ponto1}, b={self.ponto2}')
 
 
     def interpolar(self,x):
-
         y = self.a * x + self.b
         return y
-
     
-    def model(self):
 
-        print(f'Os parâmertros do meu modelo de reta são: a={self.a}, b={self.b}')
+    def contem_ponto(self, ponto):
+        if (self.ponto1.x == self.ponto2.x):  
+            if ponto.x != self.ponto1.x:
+                return False
+        else:
+            m = (self.ponto2.y - self.ponto1.y) / (self.ponto2.x - self.ponto1.x)
+            b = self.ponto1.y - m * self.ponto1.x
+            if ponto.y != m * ponto.x + b:
+                return False
+        dentro_x = min(self.ponto1.x, self.ponto2.x) <= ponto.x <= max(self.ponto1.x, self.ponto2.x)
+        dentro_y = min(self.ponto1.y, self.ponto2.y) <= ponto.y <= max(self.ponto1.y, self.ponto2.y)
+        
+        return dentro_x and dentro_y
+
+def capturar_ponto(mensagem):
+    
+    while True:
+        try:
+            x = float(input(f"Digite a coordenada x para {mensagem}: "))
+            y = float(input(f"Digite a coordenada y para {mensagem}: "))
+            return Point(x, y)
+        except ValueError:
+            print("Entrada inválida. Por favor, insira valores numéricos.")
+
+def capturar_reta():
+    print("Digite as coordenadas do ponto 1 da reta:")
+    ponto1 = capturar_ponto("ponto 1")
+    print("Digite as coordenadas do ponto 2 da reta:")
+    ponto2 = capturar_ponto("ponto 2")
+    return Reta(ponto1, ponto2)
+
+def verificar_ponto_na_reta():
+    reta = capturar_reta()
+    print("Digite as coordenadas do ponto a ser verificado:")
+    ponto = capturar_ponto("ponto a ser verificado")
+    if reta.contem_ponto(ponto):
+        print(f"O ponto {ponto} está compreendido no segmento de reta entre {reta.ponto1} e {reta.ponto2}.")
+    else:
+        print(f"O ponto {ponto} não está compreendido no segmento de reta entre {reta.ponto1} e {reta.ponto2}.")
+    
 
 
 class circle():
-    def __init__(self, r, x, y):
+    def __init__(self, r ):
         self.r = r
-        self.x = x
-        self.y = y
+        
+        
 
 
     def circulo(self):
@@ -34,7 +131,14 @@ class circle():
         return area
     
     def model(self):
-        print(f'Os parâmetros dessa circunferência são: r={self.r}, x={self.x}, y={self.y}.')
+        print(f'Os parâmetros dessa circunferência são: raio={self.r}.')
+
+    def identif(self):
+        return 'Círculo'
+    
+    #def contem_ponto(self, ponto):
+     #   distancia = math.sqrt((ponto.x - self.centro.x) ** 2 + (ponto.y - self.centro.y) ** 2)
+      #  return distancia <= self.raio
 
 class Triangulo():
     def __init__(self,base,altura):
@@ -48,8 +152,8 @@ class Triangulo():
     def model(self):
         print(f'Os parâmetros desse triângulo são: base={self._base}, altura={self._altura}')
 
-
-
+    def identif(self):
+        return 'Triângulo'
 
 class Retangulo():
     def __init__(self , lado, base):
@@ -66,6 +170,9 @@ class Retangulo():
     
     def model(self):
         print(f'Os parâmetros desse retangulo são: lado={self.__lado}, base={self.__base}')
+
+    def identif(self):
+        return 'Retângulo'
 
 class Quadrado(Retangulo):
     def __init__(self,lado,base):
@@ -125,25 +232,38 @@ class Lados:
         self.arestas = arestas
 
 
+class Listar_formas:
+    def __init__(self):
+        self.formas = {}
+        self.count = 0
 
+    def add_forma(self, new_form):
+        self.count += 1
+        self.formas[self.count] = new_form
+
+    def remove_formas(self,key):
+        if key in self.formas:
+            del self.formas[key]
+            return True
+        else:
+            return False
+
+    def listar_formas(self):
+        if not self.formas:
+            print('Não existe nenhuma forma geométrica criada')
+        else:
+            for chave, formas in self.formas.items():
+                print(f"{chave}: {formas.identif()}")
+
+
+
+class Contem_formas:
+
+    def circulo(coordx_p, coordy_p, coordx_c, coordy_c, raio):
+        contem = math.sqrt((coordx_p - coordx_c)**2 + (coordy_p - coordy_c)**2)
+        return contem <= raio
     
-    
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        
+    def retangulo(inferior_esq_x, inferior_esq_y, largura,altura,pontox,pontoy):
+        dentro_x = (inferior_esq_x <= pontox <= inferior_esq_x + largura)
+        dentro_y = (inferior_esq_y <= pontoy <= inferior_esq_y + altura)
+        return dentro_x and dentro_y
